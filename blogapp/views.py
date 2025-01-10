@@ -86,3 +86,4 @@ def my_post(request, pk):
 
 def home(request):
     return render(request, 'base.html') 
+
