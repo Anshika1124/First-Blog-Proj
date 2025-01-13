@@ -1,78 +1,43 @@
 {% extends 'home.html' %}
 {% block content %}
-{% load static %}
-<nav class="navbar navbar-expand-lg navbar-light bg-light w-100">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li><a href="/base"><img class="w-50" src="{% static 'logo.jpeg' %}" alt=""></a></li>
-        </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <div class="dropdown">
-                <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Profile
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="/newpost">New Post</a>
-                    <a class="dropdown-item" href="/mypost">My Posts</a>
-                    <a class="dropdown-item" href="/signup">Sign Out</a>
-                </div>
-            </div>
-        </form>
-    </div>
-</nav>
-
 <div class="container" style="max-width: 1350px;">
-    <h1>{{ post.title }}</h1>
+
+    <h2>{{ post.title }}</h2>
+
     <div class="article-metadata">
-        <h4>Author: {{ post.author }}</h4>
-        <h5>Date Posted: {{ post.date_posted|date:"F d, Y" }}</h5>
+        <h5 style="color: rgb(155, 78, 145);">Author: {{ post.author }}</h5>
+        <h5 style="color: rgb(77, 102, 148);">Date Posted: {{ post.date_posted|date:"F d, Y" }}</h5>
     </div>
     <hr>
+
     <p>{{ post.content }}</p>
-    <a href="{% url 'my-post' %}" class="btn btn-secondary">Back to My Posts</a>
+    <hr>
 
-    <br><br>
+    <h4>Add a Comment:</h4>
+    {% if user.is_authenticated %}
+        <form method="post" action="{% url 'post_detail' post.pk %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Post Comment</button>
+        </form>
+    {% else %}
+        <p>You must <a href="{% url 'login' %}">log in</a> to leave a comment.</p>
+    {% endif %}
+    <hr>
 
-<div class="container mt-4">
-    <article class="post-detail">
-        <h2 class="text-uppercase" style="color: #c057ae;">{{ post.title }}</h2>
-        <p><strong>Author:</strong> {{ post.author }}</p>
-        <p><strong>Published on:</strong> {{ post.date_posted|date:"F d, Y" }}</p>
-        <hr>
-        <p>{{ post.content }}</p>
-        <hr>
+    <h4>Comments:</h4>
+    <div class="comments">
+        {% for comment in comments %}
+            <div class="comment">
+                <strong>{{ comment.author }}:</strong> {{ comment.content }}
+                <small>{{ comment.date_posted|date:"F d, Y " }}</small>
 
+            </div>
+        {% empty %}
+            <p>No comments yet. Be the first to comment!</p>
+        {% endfor %}
+        <a href="{% url 'base' %}" class="btn btn-primary">Back to Base Page</a>
 
-        <h4>Comments:</h4>
-        <div class="comments">
-            {% for comment in post.comments.all %}
-                <div class="comment" style="margin-bottom: 10px;">
-                    <strong>{{ comment.author }}:</strong> {{ comment.content }}
-                    <br>
-                    <small>{{ comment.date_posted|date:"F d, Y H:i" }}</small>
-                </div>
-            {% empty %}
-                <p>No comments yet. Be the first to comment!</p>
-            {% endfor %}
-        </div>
-
-
-
-        {% if user.is_authenticated %}
-            <form method="post" action="{% url 'add_comment' post.pk %}">
-                {% csrf_token %}
-                <textarea name="content" rows="2" class="form-control" placeholder="Add a comment"></textarea>
-                <button type="submit" class="btn btn-secondary btn-sm mt-2">Post Comment</button>
-            </form>
-        {% else %}
-            <p>You must <a href="{% url 'loginn' %}">log in</a> to leave a comment.</p>
-        {% endif %}
-    </article>
+   </div>
 </div>
 {% endblock %}

@@ -12,7 +12,7 @@ urlpatterns = [
     path('logout/', views.signout, name='signout'),
     path('edit/<int:pk>/', views.edit_post, name='edit_post'),
     path('post/<int:pk>/delete/', views.delete_post, name='delete_post'),
-    path('post/<int:pk>/', views.my_post, name='mypost_detail'),
+    path('mypost/<int:pk>/', views.my_post, name='mypost_detail'),
     path('my-post/<int:pk>/', views.my_post, name='mypost'),
 	path('', lambda request: redirect('/loginn/'), name='redirect-to-login'),  
     path('auth/', include('django.contrib.auth.urls')), 

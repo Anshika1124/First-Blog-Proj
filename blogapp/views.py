@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.models import User
 from blogapp import models
-from .models import Post
+from .models import Post,Comment
 from django.contrib.auth import authenticate, login, logout
 from .forms import PostForm,CommentForm
 from django.contrib.auth.decorators import login_required
@@ -89,5 +89,21 @@ def home(request):
 
 
 def post_detail(request, pk):
-    post = Post.objects.get(pk=pk)
-    return render(request, 'post_detail.html', {'post': post})
+    post = get_object_or_404(Post, pk=pk)
+    comments = post.comments.all() 
+    if request.method == "POST":
+        if request.user.is_authenticated:
+            form = CommentForm(request.POST)
+            if form.is_valid():
+                new_comment = form.save(commit=False)
+                new_comment.post = post
+                new_comment.author = request.user
+                new_comment.save()
+                return redirect('post_detail', pk=post.pk) 
+        else:
+            return redirect('login')
+
+    else:
+        form = CommentForm() 
+
+    return render(request, 'post_detail.html', {'post': post, 'comments': comments, 'form': form})
