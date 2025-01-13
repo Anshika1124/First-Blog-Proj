@@ -3,7 +3,9 @@ from django.contrib.auth.models import User
 from blogapp import models
 from .models import Post
 from django.contrib.auth import authenticate, login, logout
-from .forms import PostForm
+from .forms import PostForm,CommentForm
+from django.contrib.auth.decorators import login_required
+
 
 def signup(request):
     if request.method == 'POST':
@@ -29,19 +31,15 @@ def loginn(request):
     return render(request, 'loginn.html')
 
 
-
-
 def base(request):
     posts = Post.objects.all()
     print(posts)
     return render(request, 'base.html', {'posts': posts})
 
 
-
 def myPost(request):
     posts = Post.objects.filter(author=request.user) 
     return render(request, 'mypost.html', {'posts': posts})
-
 
 
 def newPost(request):
@@ -53,7 +51,6 @@ def newPost(request):
         return redirect('my-post')
     
     return render(request, 'newpost.html')
-
 
 
 def signout(request):
@@ -80,10 +77,17 @@ def delete_post(request, pk):
         return redirect('my-post')  
     return render(request, 'delete.html', {'post': post})
 
+
 def my_post(request, pk):
     post = get_object_or_404(Post, pk=pk)
     return render(request, 'mypost_detail.html', {'post': post})
 
+
+@login_required
 def home(request):
     return render(request, 'base.html') 
 
+
+def post_detail(request, pk):
+    post = Post.objects.get(pk=pk)
+    return render(request, 'post_detail.html', {'post': post})

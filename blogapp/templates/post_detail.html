@@ -1,7 +1,6 @@
 {% extends 'home.html' %}
 {% block content %}
 {% load static %}
-
 <nav class="navbar navbar-expand-lg navbar-light bg-light w-100">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,12 +35,44 @@
     </div>
     <hr>
     <p>{{ post.content }}</p>
-    <a href="{% url 'edit_post' post.pk %}" class="btn btn-warning">Edit</a>
-    <a href="{% url 'delete_post' post.pk %}" class="btn btn-danger">Delete</a>
-    <a href="{% url 'my-post' %}" class="btn btn-secondary">Back to my post</a>
+    <a href="{% url 'my-post' %}" class="btn btn-secondary">Back to My Posts</a>
 
     <br><br>
 
-</div>
+<div class="container mt-4">
+    <article class="post-detail">
+        <h2 class="text-uppercase" style="color: #c057ae;">{{ post.title }}</h2>
+        <p><strong>Author:</strong> {{ post.author }}</p>
+        <p><strong>Published on:</strong> {{ post.date_posted|date:"F d, Y" }}</p>
+        <hr>
+        <p>{{ post.content }}</p>
+        <hr>
 
+
+        <h4>Comments:</h4>
+        <div class="comments">
+            {% for comment in post.comments.all %}
+                <div class="comment" style="margin-bottom: 10px;">
+                    <strong>{{ comment.author }}:</strong> {{ comment.content }}
+                    <br>
+                    <small>{{ comment.date_posted|date:"F d, Y H:i" }}</small>
+                </div>
+            {% empty %}
+                <p>No comments yet. Be the first to comment!</p>
+            {% endfor %}
+        </div>
+
+
+
+        {% if user.is_authenticated %}
+            <form method="post" action="{% url 'add_comment' post.pk %}">
+                {% csrf_token %}
+                <textarea name="content" rows="2" class="form-control" placeholder="Add a comment"></textarea>
+                <button type="submit" class="btn btn-secondary btn-sm mt-2">Post Comment</button>
+            </form>
+        {% else %}
+            <p>You must <a href="{% url 'loginn' %}">log in</a> to leave a comment.</p>
+        {% endif %}
+    </article>
+</div>
 {% endblock %}

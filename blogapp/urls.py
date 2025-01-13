@@ -1,5 +1,7 @@
-from django.urls import path
+from django.urls import path,include
 from . import views
+from django.shortcuts import redirect
+
 
 urlpatterns = [
 	path('signup/', views.signup, name='signup'),
@@ -12,7 +14,10 @@ urlpatterns = [
     path('post/<int:pk>/delete/', views.delete_post, name='delete_post'),
     path('post/<int:pk>/', views.my_post, name='mypost_detail'),
     path('my-post/<int:pk>/', views.my_post, name='mypost'),
-	path('', views.home, name='home'), 
+	path('', lambda request: redirect('/loginn/'), name='redirect-to-login'),  
+    path('auth/', include('django.contrib.auth.urls')), 
+    path('post/<int:pk>/', views.post_detail, name='post_detail'),
+
 ]
 
 
