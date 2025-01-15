@@ -5,7 +5,7 @@ from .models import Post,Comment
 from django.contrib.auth import authenticate, login, logout
 from .forms import PostForm,CommentForm
 from django.contrib.auth.decorators import login_required
-
+from django.http import HttpResponseForbidden
 
 def signup(request):
     if request.method == 'POST':
@@ -107,3 +107,17 @@ def post_detail(request, pk):
         form = CommentForm() 
 
     return render(request, 'post_detail.html', {'post': post, 'comments': comments, 'form': form})
+
+@login_required
+def delete_comment(request, pk):
+    comment = get_object_or_404(Comment, pk=pk)
+    post = comment.post
+
+    if post.author != request.user:
+        return HttpResponseForbidden("You are not allowed to delete comments on this post.")
+
+    if request.method == "POST":
+        comment.delete()
+        return redirect('mypost_detail', pk=post.pk)
+
+    return redirect('mypost_detail', pk=post.pk)

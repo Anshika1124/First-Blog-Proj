@@ -6,11 +6,11 @@
 
     <div class="article-metadata">
         <h5 style="color: rgb(155, 78, 145);">Author: {{ post.author }}</h5>
-        <h5 style="color: rgb(77, 102, 148);">Date Posted: {{ post.date_posted|date:"F d, Y" }}</h5>
+        <h6 style="color: rgb(77, 102, 148);">Date Posted: {{ post.date_posted|date:"F d, Y" }}</h6>
     </div>
     <hr>
 
-    <p>{{ post.content }}</p>
+    <p style="background-color: rgb(241, 228, 238);">{{ post.content }}</p>
     <hr>
 
     <h4>Add a Comment:</h4>

@@ -17,6 +17,7 @@ urlpatterns = [
 	path('', lambda request: redirect('/loginn/'), name='redirect-to-login'),  
     path('auth/', include('django.contrib.auth.urls')), 
     path('post/<int:pk>/', views.post_detail, name='post_detail'),
+    path('comment/<int:pk>/delete/', views.delete_comment, name='delete_comment'),
 
 ]
 

@@ -42,6 +42,26 @@
 
     <br><br>
 
+    <h4>Comments:</h4>
+    <div class="comments">
+        {% for comment in post.comments.all %}
+            <div class="comment">
+                <strong>{{ comment.author }}</strong>: {{ comment.content }}
+                <br>
+                <small>{{ comment.date_posted|date:"F d, Y H:i" }}</small>
+                
+                {% if user == post.author %}
+                    <form method="post" action="{% url 'delete_comment' comment.pk %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                {% endif %}
+            </div>
+        {% empty %}
+            <p>No comments yet. Be the first to comment!</p>
+        {% endfor %}
+    </div>
+
 </div>
 
 {% endblock %}
