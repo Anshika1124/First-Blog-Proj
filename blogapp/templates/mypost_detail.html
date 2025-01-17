@@ -10,7 +10,7 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li><a href="/base"><img class="w-50" src="{% static 'logo.jpeg' %}" alt=""></a></li>
+            <li><a href="/base"><img class="w-50"style="width: 350px; height: 150px;" src="{% static 'base.avif' %}" alt=""></a></li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
             <div class="dropdown">
@@ -38,7 +38,6 @@
     <p>{{ post.content }}</p>
     <a href="{% url 'edit_post' post.pk %}" class="btn btn-warning">Edit</a>
     <a href="{% url 'delete_post' post.pk %}" class="btn btn-danger">Delete</a>
-    <a href="{% url 'my-post' %}" class="btn btn-secondary">Back to my post</a>
 
     <br><br>
 

@@ -14,10 +14,10 @@ urlpatterns = [
     path('post/<int:pk>/delete/', views.delete_post, name='delete_post'),
     path('mypost/<int:pk>/', views.my_post, name='mypost_detail'),
     path('my-post/<int:pk>/', views.my_post, name='mypost'),
-	path('', lambda request: redirect('/loginn/'), name='redirect-to-login'),  
-    path('auth/', include('django.contrib.auth.urls')), 
+	path('', lambda request: redirect('/base/'), name='redirect-to-base'),  
     path('post/<int:pk>/', views.post_detail, name='post_detail'),
     path('comment/<int:pk>/delete/', views.delete_comment, name='delete_comment'),
+    path('', views.home, name='home'),
 
 ]
 

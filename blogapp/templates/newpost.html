@@ -15,7 +15,7 @@
 
 	<div class="collapse navbar-collapse" id="navbarSupportedContent">
 		<ul class="navbar-nav mr-auto ">
-			<li><a href="/base"><img class="w-100 " height="150" src="{% static 'newpost.png' %}" alt=""></a></li>
+			<li><a href="/base"><img class="w-100 " height="150" src="{% static 'base.avif' %}" alt=""></a></li>
 
 		</ul>
 		<form class="form-inline my-2 my-lg-0">
@@ -25,9 +25,10 @@
 					Profile
 				</button>
 				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-					<a class="dropdown-item" href="/newpost">New Post</a>
 					<a class="dropdown-item" href="/mypost">My Posts</a>
 					<a class="dropdown-item" href="/signup">Sign Out</a>
+					<a class="dropdown-item" href="/base">Back to Base </a>
+
 				</div>
 			</div>
 		</form>
@@ -51,7 +52,7 @@
 			<textarea class="form-control" id="exampleFormControlTextarea3" rows="7" name="content"></textarea>
 		</div>
 		<input class="btn btn-primary" type="submit" value="Post">
-		<a href="{% url 'base' %}" class="btn btn-primary">Back to Base Page</a>
+		<a href="{% url 'base' %}" class="btn btn-primary">Cancel</a>
 
 	</div>
 </form>
