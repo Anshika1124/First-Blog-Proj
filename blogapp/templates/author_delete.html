@@ -1,0 +1,11 @@
+{% extends "home.html" %}
+{% block content %}
+{% load static %}
+
+<h2>Are you sure you want to delete this post?</h2>
+<form method="POST" action="{% url 'author_delete' pk=author.pk %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+    <a href="{% url 'author_list' pk=author.pk %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

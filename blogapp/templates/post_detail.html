@@ -5,8 +5,11 @@
     <h2>{{ post.title }}</h2>
 
     <div class="article-metadata">
-        <h5 style="color: rgb(155, 78, 145);">Author: {{ post.author }}</h5>
+        <h5 style="color: rgb(155, 78, 145);">Author:<a href="{% url 'author_detail' pk=post.author.pk %}">{{ post.author.name }}</a>
+            {{ post.author }}</h5>
         <h6 style="color: rgb(77, 102, 148);">Date Posted: {{ post.date_posted|date:"F d, Y" }}</h6>
+        <a href="{% url 'author_detail' pk=post.author.pk %}" class="btn btn-primary">View Author Details</a>
+
     </div>
     <hr>
 

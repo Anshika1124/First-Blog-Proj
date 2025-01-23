@@ -1,11 +1,12 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.models import User
 from blogapp import models
-from .models import Post,Comment
+from .models import Post,Comment,Author
 from django.contrib.auth import authenticate, login, logout
-from .forms import PostForm,CommentForm
+from .forms import PostForm,CommentForm,AuthorForm
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
+
 
 def signup(request):
     if request.method == 'POST':
@@ -49,7 +50,6 @@ def newPost(request):
         npost = models.Post(title=title, content=content, author=request.user)
         npost.save()
         return redirect('my-post')
-    
     return render(request, 'newpost.html')
 
 
@@ -102,13 +102,12 @@ def post_detail(request, pk):
                 return redirect('post_detail', pk=post.pk) 
         else:
             return redirect('login')
-
     else:
         form = CommentForm() 
-
     return render(request, 'post_detail.html', {'post': post, 'comments': comments, 'form': form})
 
-@login_required
+
+
 def delete_comment(request, pk):
     comment = get_object_or_404(Comment, pk=pk)
     post = comment.post
@@ -121,3 +120,45 @@ def delete_comment(request, pk):
         return redirect('mypost_detail', pk=post.pk)
 
     return redirect('mypost_detail', pk=post.pk)
+
+
+def author_list(request):
+    authors=Author.objects.all()
+    return render(request,'author_list.html',{'authors':authors})
+
+
+def author_create(request):
+    if request.method == 'POST':
+        form = AuthorForm(request.POST)
+        if form.is_valid():
+            new_author = form.save()
+            return redirect('author_detail', pk=new_author.pk)
+    else:
+        form = AuthorForm()
+    return render(request, 'author_form.html', {'form': form})
+
+
+
+def author_detail(request,pk):
+    author = get_object_or_404(Author, pk=pk)
+    return render(request, 'author_detail.html', {'author': author})
+
+
+def author_update(request, pk):
+    author = get_object_or_404(Author, pk=pk)
+    if request.method == 'POST':
+        form = AuthorForm(request.POST, instance=author)
+        if form.is_valid():
+            form.save()
+            return redirect('author_detail', pk=author.pk) 
+    else:
+        form = AuthorForm(instance=author)
+    return render(request, 'author_form.html', {'form': form})
+
+
+def author_delete(request,pk):
+    author=get_object_or_404(Author,pk=pk)
+    if request.method=='POST':
+        author.delete()
+        return redirect('author_list')
+    return render(request, 'author_delete.html', {'author': author})

@@ -25,7 +25,10 @@
 				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 					<a class="dropdown-item" href="/newpost">New Post</a>
 					<a class="dropdown-item" href="/mypost">My Posts</a>
+					<a class="dropdown-item" href="{% url 'author_create' %}">Create Author</a>
+					<a class="dropdown-item" href="{% url 'author_list' %}">Author's List</a>
 					<a class="dropdown-item" href="/signup">Sign Out</a>
+
 				</div>
 			</div>
 		</form>
@@ -46,7 +49,9 @@
 			</div>
 			<h3 class="text-uppercase" style="color: rgb(37, 57, 63); text-decoration:underline;">{{ post.title }}</h3>
 			<p class="article-content">{{ post.content | truncatewords:30 }}</p>
+<br>
 			<a href="{% url 'post_detail' post.pk %}" class="btn btn-primary">Read More</a>
+
 
 			<br><br>
 		</div>

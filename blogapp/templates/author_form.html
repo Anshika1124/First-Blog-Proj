@@ -1,0 +1,15 @@
+{% extends 'home.html' %}
+{% block content %}
+<h1>{% if author %}Edit Author{% else %}Create Author{% endif %}</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">{% if author %}Save Changes{% else %}Save Author{% endif %}</button>
+    
+    {% if author %}
+        <a href="{% url 'author_detail' pk=author.pk %}" class="btn btn-secondary">Cancel</a>
+    {% else %}
+        <a href="{% url 'author_list'%}" class="btn btn-secondary">Cancel</a>
+    {% endif %}
+</form>
+{% endblock %}

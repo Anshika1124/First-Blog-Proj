@@ -1,0 +1,18 @@
+{% extends 'home.html' %}
+{% block content %}
+{% load static %}
+
+<h2>{{ author.name }}</h2>
+<p>Email: {{ author.email }}</p>
+<p>Bio: {{ author.bio }}</p>
+
+{% if user.is_staff %}
+    <a href="{% url 'author_update' author.pk %}" class="btn btn-warning">Edit Author</a>
+    <form method="post" action="{% url 'author_delete' author.pk %}" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete Author</button>
+    </form>
+{% endif %}
+<a href="{% url 'author_list' %}" class="btn btn-secondary">Back to List</a>
+
+{% endblock %}

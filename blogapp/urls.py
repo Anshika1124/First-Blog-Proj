@@ -18,7 +18,11 @@ urlpatterns = [
     path('post/<int:pk>/', views.post_detail, name='post_detail'),
     path('comment/<int:pk>/delete/', views.delete_comment, name='delete_comment'),
     path('', views.home, name='home'),
-
+	path('authors/',views.author_list,name='author_list'),
+	path('author/new/',views.author_create,name='author_create'),
+	path('author/<int:pk>/',views.author_detail,name='author_detail'),
+	path('author/<int:pk>/edit/',views.author_update,name='author_update'),
+	path('author/<int:pk>/delete/',views.author_delete,name='author_delete'),
 ]
 
 
