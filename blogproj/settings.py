@@ -78,6 +78,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+		'OPTIONS': {
+            'timeout': 30,  # 30 seconds timeout
+        },
     }
 }
 
@@ -129,5 +132,21 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 APPEND_SLASH = True
 
-#LOGIN_URL = '/login/'  
-#LOGIN_REDIRECT_URL = '/'  
+LOGIN_URL = '/login/'  
+LOGIN_REDIRECT_URL = '/'  
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django.db.backends': {
+            'level': 'DEBUG',
+            'handlers': ['console'],
+        },
+    },
+}
